@@ -1,10 +1,11 @@
+import "./Header.scss";
+
 export default function Header() {
     return (
         <>
-            <header>
-                Stuff goes in here
+            <header className="header">
+                Welcome to <br /> the Library corner
             </header>
-            <hr />
         </>
     );
 };
