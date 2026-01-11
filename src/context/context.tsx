@@ -11,11 +11,11 @@ type BookContextType = {
 
 export const BookContext = createContext<BookContextType | null>(null);
 
-type BookContextkProviderProps = {
+type BookContextProviderProps = {
     children: React.ReactNode;
 };
 
-export function BookProvider({ children }: Readonly<BookContextkProviderProps>) {
+export function BookProvider({ children }: Readonly<BookContextProviderProps>) {
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
