@@ -1,6 +1,6 @@
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useState } from "react";
-import { useBooks } from "../../context/context";
+import { useBooks } from "../../context/BookContext";
 import "./SearchBar.scss";
 
 export default function SearchBar() {

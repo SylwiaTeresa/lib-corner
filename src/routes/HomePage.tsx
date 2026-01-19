@@ -1,13 +1,13 @@
+import { BookList } from "../components/BookList/BookList";
 import SearchBar from "../components/SearchBar/SearchBar";
-import Card from "../components/SearchResultList/SearchResults";
-import { BookProvider } from "../context/context"
+import { BookProvider } from "../context/BookContext";
 
 export default function HomePage() {
     return (
         <>
             <BookProvider>
                 <SearchBar />
-                <Card />
+                <BookList />
             </BookProvider>
         </>
     );
