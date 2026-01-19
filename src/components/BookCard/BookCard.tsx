@@ -1,5 +1,5 @@
 import "./BookCard.scss";
-import type { Book } from "../../types"; 
+import type { Book } from "../../types/Book"; 
 
 type BookCardProps = {
     book: Book;
@@ -19,4 +19,3 @@ export default function BookCard({ book }: BookCardProps) {
         </div>
     );
 };
-
