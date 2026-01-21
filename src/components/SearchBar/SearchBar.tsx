@@ -1,44 +1,35 @@
-import { FaMagnifyingGlass } from "react-icons/fa6";
-import { useState } from "react";
-import { useBooks } from "../../context/BookContext";
 import "./SearchBar.scss";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import { useBooks } from "../../context/BookContext";
+import { useDebounce } from "../../utils/useDebounce";
 
-export default function SearchBar() {
-    const { setSearchTerm } = useBooks();
-    const [searchQuery, setSearchQuery] = useState("");
+export const SearchBar = () => {
+    const { searchTerm, setSearchTerm, loading, error } = useBooks();
+    const [inputValue, setInputValue] = useState(searchTerm);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(e.target.value);
-    };
+    const debouncedSearchTerm = useDebounce(inputValue, 500);
 
-    const handleSearch = () => {
-        if (searchQuery.trim() === "") return;
-        setSearchTerm(searchQuery);
-    };
-
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        console.log("Tryckt tangent:", e.key);
-        if (e.key === "Enter") {
-            e.preventDefault();
-            handleSearch();    
-        }
-    };
+    useEffect (() => {
+       setSearchTerm(debouncedSearchTerm);
+    }, [debouncedSearchTerm, setSearchTerm]);
 
     return (
         <>
-            <div className="SearchBar">
-                <label className="search-label">Search for your next adventure {" "} <br />
-                    <input 
-                        type="text" 
-                        name="SearchBar"
-                        placeholder=". . ."
-                        value={searchQuery}
-                        onChange={handleChange}
-                        onKeyDown={handleKeyDown}
-                        required
-                    />
-                </label>
-                <button onClick={handleSearch}>
+            <h3 className="search-label">Search for your next adventure</h3>
+            <div className="input-wrapper">
+                 <input 
+                    className="searchbar"
+                    type="text" 
+                    placeholder="Search för books..."
+                    value={inputValue}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+                />
+                
+                {loading && <p>Loading...</p>}
+                {error && <p className="error">{error}</p>}
+
+                <button>
                     <FaMagnifyingGlass id="FaMagnifyingGlass-icon"/>
                 </button>
             </div>
