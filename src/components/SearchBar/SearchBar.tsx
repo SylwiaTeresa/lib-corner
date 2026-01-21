@@ -27,7 +27,7 @@ export default function SearchBar() {
     return (
         <>
             <div className="SearchBar">
-                <label htmlFor="" className="search-label">Search for your next adventure {" "} <br />
+                <label className="search-label">Search for your next adventure {" "} <br />
                     <input 
                         type="text" 
                         name="SearchBar"
