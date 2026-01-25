@@ -1,6 +1,8 @@
 import "./BookCard.scss";
 import type { Book } from "../../types/Book"; 
 import { useFavorites } from "../../context/FavoritesContext";
+import { BookDetailsModal } from "../BookDetailsModal/BookDetailsModal";
+import { useState } from "react";
 
 type BookCardProps = {
     book: Book;
@@ -8,6 +10,7 @@ type BookCardProps = {
 
 export default function BookCard({ book }: BookCardProps) {
     const { favorites, dispatch } = useFavorites();
+    const [isOpen, setIsOpen] = useState(false);
 
     const isFavorite = favorites.some(fav => fav.key === book.key);
 
@@ -24,12 +27,18 @@ export default function BookCard({ book }: BookCardProps) {
     : "https://placehold.co/600x400?text=No+Cover"; 
 
     return (
-        <div className="Card">
-            <img src={coverURL} alt={`Cover for ${book.title}`} className="CardImage" />
-            <h3>{book.title}</h3>
-            <p>{book.author_name ? book.author_name.join(", ") : "Unknown author"}</p>
-            <p>{book.first_publish_year ?? "Unknown year"}</p>
-            <button onClick={toggleFavorite}>{isFavorite ? "♡" : "♥"}</button>
-        </div>
+        <>
+            <div className="book-card" onClick={() => setIsOpen(true)}>
+                <img src={coverURL} alt={`Cover for ${book.title}`} className="CardImage" />
+                <h3>{book.title}</h3>
+                <p>{book.author_name ? book.author_name.join(", ") : "Unknown author"}</p>
+                <button onClick={toggleFavorite}>{isFavorite ? "♥" : "♡"}</button>
+            </div>
+
+            {isOpen && (
+                <BookDetailsModal book={book} onClose={() => setIsOpen(false)} />
+            )}
+
+        </>
     );
 };
