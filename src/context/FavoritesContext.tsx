@@ -1,12 +1,10 @@
 import { createContext, useContext, useReducer, useEffect, ReactNode } from "react";
 import type { Book } from "../types/Book";
 
-// Typ för favoritboken (kan utökas med egna fält)
 export type FavoriteBook = Book & {
-  note?: string; // egen info
+  note?: string;
 };
 
-// State och actions
 type FavoritesState = FavoriteBook[];
 
 type FavoritesAction =
@@ -19,10 +17,8 @@ type FavoritesContextType = {
   dispatch: React.Dispatch<FavoritesAction>;
 };
 
-// Skapa context
 const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
 
-// Reducer
 function favoritesReducer(state: FavoritesState, action: FavoritesAction): FavoritesState {
   switch (action.type) {
     case "ADD_FAVORITE":
@@ -41,7 +37,6 @@ function favoritesReducer(state: FavoritesState, action: FavoritesAction): Favor
   }
 }
 
-// Provider
 type FavoritesProviderProps = { children: ReactNode };
 
 export function FavoritesProvider({ children }: FavoritesProviderProps) {
@@ -51,7 +46,6 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
     return stored ? JSON.parse(stored) : [];
   });
 
-  // Spara favorites i localStorage vid ändring
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
@@ -63,7 +57,6 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
   );
 }
 
-// Custom hook
 export function useFavorites() {
   const context = useContext(FavoritesContext);
   if (!context) throw new Error("useFavorites must be used within FavoritesProvider");

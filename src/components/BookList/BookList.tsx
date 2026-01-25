@@ -1,5 +1,5 @@
 import "./BookList.scss";
-import BookCard from "../BookCard/BookCard";
+import { BookCard } from "../BookCard/BookCard";
 import { useBooks } from "../../context/BookContext";
 
 export const BookList = () => {

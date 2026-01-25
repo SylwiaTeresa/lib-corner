@@ -8,7 +8,7 @@ type BookCardProps = {
     book: Book;
 };
 
-export default function BookCard({ book }: BookCardProps) {
+export const BookCard = ({ book }: BookCardProps) => {
     const { favorites, dispatch } = useFavorites();
     const [isOpen, setIsOpen] = useState(false);
 
