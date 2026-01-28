@@ -4,7 +4,8 @@ import "./NavBar.scss";
 export default function NavBar() {
     const theMenuBar = [
         { to: "/", label: "| Home" },
-        { to: "/favorites", label: "||| Favorites" },
+        { to: "/favorites", label: "|| Favorites" },
+        { to: "/read-books", label: "||| Read Books" }
     ];
 
     const getLinkClassName = ({ isActive } : { isActive: boolean }) => {
