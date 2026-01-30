@@ -7,6 +7,7 @@ import RootLayout from './layouts/RootLayout'
 import HomePage from './routes/HomePage'
 import FavoritePage from './routes/FavoritePage'
 import ReadBooksPage from './routes/ReadBooksPage'
+import FavoriteDetailsPage from './routes/FavoriteDetailsPage'
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "favorites", element: <FavoritePage /> },
+      { path: "favorites/works/:bookID", element: <FavoriteDetailsPage />},
       { path: "read-books", element: <ReadBooksPage /> },
     ]
   },

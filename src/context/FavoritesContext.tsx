@@ -1,8 +1,8 @@
-import { createContext, useContext, useReducer, useEffect, ReactNode } from "react";
+import { createContext, useContext, useReducer, useEffect, ReactNode, Dispatch } from "react";
 import type { Book } from "../types/Book";
 
 export type FavoriteBook = Book & {
-  note?: string;
+  notes?: string;
 };
 
 type FavoritesState = FavoriteBook[];
@@ -10,11 +10,11 @@ type FavoritesState = FavoriteBook[];
 type FavoritesAction =
   | { type: "ADD_FAVORITE"; book: FavoriteBook }
   | { type: "REMOVE_FAVORITE"; key: string }
-  | { type: "UPDATE_FAVORITE"; key: string; updatedBook: FavoriteBook };
+  | { type: "UPDATE_FAVORITE_NOTES"; key: string; notes: string };
 
 type FavoritesContextType = {
   favorites: FavoritesState;
-  dispatch: React.Dispatch<FavoritesAction>;
+  dispatch: Dispatch<FavoritesAction>;
 };
 
 const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
@@ -22,16 +22,14 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(undefin
 function favoritesReducer(state: FavoritesState, action: FavoritesAction): FavoritesState {
   switch (action.type) {
     case "ADD_FAVORITE":
-      // undvik dubbletter
       if (state.find(b => b.key === action.book.key)) return state;
       return [...state, action.book];
-
     case "REMOVE_FAVORITE":
       return state.filter(b => b.key !== action.key);
-
-    case "UPDATE_FAVORITE":
-      return state.map(b => (b.key === action.key ? action.updatedBook : b));
-
+    case "UPDATE_FAVORITE_NOTES":
+      return state.map(book =>
+        book.key === action.key ? { ...book, notes: action.notes } : book
+      );
     default:
       return state;
   }
@@ -41,7 +39,6 @@ type FavoritesProviderProps = { children: ReactNode };
 
 export function FavoritesProvider({ children }: FavoritesProviderProps) {
   const [favorites, dispatch] = useReducer(favoritesReducer, [], () => {
-    // Initiera från localStorage
     const stored = localStorage.getItem("favorites");
     return stored ? JSON.parse(stored) : [];
   });
