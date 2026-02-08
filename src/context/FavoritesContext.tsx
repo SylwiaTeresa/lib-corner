@@ -17,7 +17,7 @@ type FavoritesContextType = {
   dispatch: Dispatch<FavoritesAction>;
 };
 
-const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
+const FavoritesContext = createContext<FavoritesContextType | null>(null);
 
 function favoritesReducer(state: FavoritesState, action: FavoritesAction): FavoritesState {
   switch (action.type) {

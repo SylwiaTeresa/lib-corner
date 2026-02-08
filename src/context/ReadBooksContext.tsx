@@ -1,9 +1,9 @@
-import { createContext, useContext, useReducer, useEffect, ReactNode } from "react";
+import { createContext, useContext, useReducer, useEffect, ReactNode, Dispatch } from "react";
 import type { ReadBook } from "../types/ReadBook";
 
 type ReadBooksState = ReadBook[];
 
-type Action =
+type ReadBookAction =
   | { type: "ADD_READ_BOOK"; book: ReadBook }
   | { type: "REMOVE_READ_BOOK"; key: string };
 
@@ -11,12 +11,12 @@ type ReadBooksContextType = {
   readBooks: ReadBooksState;
   totalPages: number;
   totalBooks: number;
-  dispatch: React.Dispatch<Action>;
+  dispatch: Dispatch<ReadBookAction>;
 };
 
-const ReadBooksContext = createContext<ReadBooksContextType | undefined>(undefined);
+const ReadBooksContext = createContext<ReadBooksContextType | null>(null);
 
-function reducer(state: ReadBooksState, action: Action): ReadBooksState {
+function reducer(state: ReadBooksState, action: ReadBookAction): ReadBooksState {
   switch (action.type) {
     case "ADD_READ_BOOK":
       if (state.some(b => b.key === action.book.key)) return state;
