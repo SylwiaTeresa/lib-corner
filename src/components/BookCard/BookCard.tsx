@@ -6,7 +6,7 @@ import { useState } from "react";
 import { TbBooksOff } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
-import { FaCheckCircle, FaRegCheckCircle } from "react-icons/fa";
+//import { FaCheckCircle, FaRegCheckCircle } from "react-icons/fa";
 
 type BookCardProps = {
     book: Book;
@@ -19,18 +19,10 @@ export const BookCard = ({ book, showActions = false, basePath, onClick }: BookC
     const navigate = useNavigate();
     const { favorites, toggleFavorite } = useFavorites();
     //const { readBooks, toggleRead } = useRead();
-    const [isOpen, setIsOpen] = useState(false);
+    //const [isOpen, setIsOpen] = useState(false);
 
     const isFavorite = favorites.some(fav => fav.key === book.key);
-    //const isRead = readBooks.some(r => r.key === book.key);
-
-    // const toggleFavorite = () => {
-    //     if (isFavorite) {
-    //     dispatch({ type: "REMOVE_FAVORITE", key: book.key });
-    //     } else {
-    //     dispatch({ type: "ADD_FAVORITE", book });
-    //     }
-    // }; 
+    //const isRead = readBooks.some(read => read.key === book.key);
 
     return (
         <>
@@ -54,7 +46,7 @@ export const BookCard = ({ book, showActions = false, basePath, onClick }: BookC
                 <p>{book.author_name ? book.author_name.join(", ") : "Unknown author"}</p>
 
                 {showActions && (
-                    <div>
+                    <div className="book-card-actions">
                         <span
                             onClick={(e) => {
                             e.stopPropagation();
@@ -65,7 +57,7 @@ export const BookCard = ({ book, showActions = false, basePath, onClick }: BookC
                             {isFavorite ? <FaHeart color="red" /> : <FaRegHeart />}
                         </span>
 
-                        <span
+                        {/* <span
                             onClick={(e) => {
                             e.stopPropagation();
                             toggleRead(book);
@@ -73,14 +65,14 @@ export const BookCard = ({ book, showActions = false, basePath, onClick }: BookC
                             style={{ fontSize: "1.3rem" }}
                         >
                             {isRead ? <FaCheckCircle color="green" /> : <FaRegCheckCircle />}
-                        </span>
+                        </span> */}
                     </div>
                 )}
             </div>
 
-            {isOpen && (
+            {/* {isOpen && (
                 <BookDetailsModal book={book} onClose={() => setIsOpen(false)} />
-            )}
+            )} */}
         </>
     );
 };

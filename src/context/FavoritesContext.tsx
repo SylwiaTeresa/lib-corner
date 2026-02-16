@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect, ReactNode, Dispatch } from "react";
+import { createContext, useContext, useReducer, useEffect, ReactNode } from "react";
 import type { Book } from "../types/Book";
 
 export type FavoriteBook = Book & {
@@ -10,11 +10,15 @@ type FavoritesState = FavoriteBook[];
 type FavoritesAction =
   | { type: "ADD_FAVORITE"; book: FavoriteBook }
   | { type: "REMOVE_FAVORITE"; key: string }
-  | { type: "UPDATE_FAVORITE_NOTES"; key: string; notes: string };
+  | { type: "UPDATE_FAVORITE_NOTES"; key: string; notes: string }
+;
 
 type FavoritesContextType = {
   favorites: FavoritesState;
-  dispatch: Dispatch<FavoritesAction>;
+  toggleFavorite: (book: FavoriteBook) => void;  
+  addFavorite: (book: FavoriteBook) => void;
+  removeFavorite: (key: string) => void;
+  updateFavoriteNotes: (key: string, notes: string) => void;
 };
 
 const FavoritesContext = createContext<FavoritesContextType | null>(null);
@@ -27,9 +31,7 @@ function favoritesReducer(state: FavoritesState, action: FavoritesAction): Favor
     case "REMOVE_FAVORITE":
       return state.filter(b => b.key !== action.key);
     case "UPDATE_FAVORITE_NOTES":
-      return state.map(book =>
-        book.key === action.key ? { ...book, notes: action.notes } : book
-      );
+      return state.map(b => b.key === action.key ? { ...b, notes: action.notes } : b);
     default:
       return state;
   }
@@ -47,8 +49,21 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
+    const addFavorite = (book: FavoriteBook) => dispatch({ type: "ADD_FAVORITE", book });
+    const removeFavorite = (key: string) => dispatch({ type: "REMOVE_FAVORITE", key });
+    const updateFavoriteNotes = (key: string, notes: string) => dispatch({ type: "UPDATE_FAVORITE_NOTES", key, notes });
+
+    const toggleFavorite = (book: FavoriteBook) => {
+      const isFavorite = favorites.some(b => b.key === book.key);
+      if (isFavorite) {
+        removeFavorite(book.key);
+      } else {
+        addFavorite(book);
+      }
+    };  
+
   return (
-    <FavoritesContext.Provider value={{ favorites, dispatch }}>
+    <FavoritesContext.Provider value={{ favorites, toggleFavorite, addFavorite, removeFavorite, updateFavoriteNotes }}>
       {children}
     </FavoritesContext.Provider>
   );

@@ -12,6 +12,16 @@
         box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
+    img {
+        max-width: 100%;
+        border-radius: 4px;
+        margin-bottom: 8px;
+    }
+
+    .fallback-icon {
+        margin-bottom: 8px;
+        color: #999;
+    }
 }
 
 // {

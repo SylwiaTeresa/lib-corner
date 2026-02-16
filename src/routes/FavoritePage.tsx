@@ -18,7 +18,8 @@ export default function FavoritesPage() {
         {favorites.map(book => (
           <BookCard 
             key={book.key} 
-            book={book} 
+            book={book}
+            showActions={true} 
             onClick={() => {
               const bookID = book.key.replace(/^\/?works\//, "");
               navigate(`/favorites/works/${bookID}`);
