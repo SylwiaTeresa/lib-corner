@@ -1,12 +1,10 @@
 import "./BookCard.scss";
 import type { Book } from "../../types/Book"; 
 import { useFavorites } from "../../context/FavoritesContext";
-import { BookDetailsModal } from "../BookDetailsModal/BookDetailsModal";
-import { useState } from "react";
+import { useReadBooks } from "../../context/ReadBooksContext";
 import { TbBooksOff } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
-import { FaHeart, FaRegHeart } from "react-icons/fa6";
-//import { FaCheckCircle, FaRegCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaHeart, FaRegCheckCircle, FaRegHeart } from "react-icons/fa";
 
 type BookCardProps = {
     book: Book;
@@ -18,11 +16,10 @@ type BookCardProps = {
 export const BookCard = ({ book, showActions = false, basePath, onClick }: BookCardProps) => {
     const navigate = useNavigate();
     const { favorites, toggleFavorite } = useFavorites();
-    //const { readBooks, toggleRead } = useRead();
-    //const [isOpen, setIsOpen] = useState(false);
+    const { readBooks, toggleRead } = useReadBooks();
 
     const isFavorite = favorites.some(fav => fav.key === book.key);
-    //const isRead = readBooks.some(read => read.key === book.key);
+    const isRead = readBooks.some(read => read.key === book.key);
 
     return (
         <>
@@ -57,7 +54,7 @@ export const BookCard = ({ book, showActions = false, basePath, onClick }: BookC
                             {isFavorite ? <FaHeart color="red" /> : <FaRegHeart />}
                         </span>
 
-                        {/* <span
+                        <span
                             onClick={(e) => {
                             e.stopPropagation();
                             toggleRead(book);
@@ -65,14 +62,10 @@ export const BookCard = ({ book, showActions = false, basePath, onClick }: BookC
                             style={{ fontSize: "1.3rem" }}
                         >
                             {isRead ? <FaCheckCircle color="green" /> : <FaRegCheckCircle />}
-                        </span> */}
+                        </span>
                     </div>
                 )}
             </div>
-
-            {/* {isOpen && (
-                <BookDetailsModal book={book} onClose={() => setIsOpen(false)} />
-            )} */}
         </>
     );
 };
