@@ -1,6 +1,5 @@
+@use "../../styles/_base";
+
 .book-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
+  @include base.grid-responsive(200px);
 }

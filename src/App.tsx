@@ -1,6 +1,6 @@
-//import { createBrowserRouter } from 'react-router-dom'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.scss'
+import "./styles/_base.scss";
 import Footer from './components/Footer/Footer'
 import Header from './components/Header/Header'
 import RootLayout from './layouts/RootLayout'

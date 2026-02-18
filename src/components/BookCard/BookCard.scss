@@ -1,27 +1,45 @@
+@use "../../styles/base";
+
 .book-card {
-    border: 2px solid greenyellow;
-    background-color: cadetblue;
-    width: fit-content;
-    margin: 2em;
-    padding: 1em;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
+  @include base.card-style;
+  text-align: center;
 
-    &:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
+  img {
+    max-width: 100%;
+    border-radius: base.$radius-default;
+    margin-bottom: 8px;
+  }
 
-    img {
-        max-width: 100%;
-        border-radius: 4px;
-        margin-bottom: 8px;
-    }
+  h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
 
-    .fallback-icon {
-        margin-bottom: 8px;
-        color: #999;
+  p {
+    font-weight: bold;
+    line-height: 1.1;
+  }
+
+  .actions {
+    @include base.absolute-top-right;
+    display: flex;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+
+    .action-btn {
+      cursor: pointer;
+      user-select: none;
+
+      &:hover {
+        transform: scale(1.2);
+      }
     }
+  }
+
+  // .fallback-icon {
+  //   margin-bottom: 8px;
+  //   color: #999;
+  // }
 }
 
 // {

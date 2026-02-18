@@ -1,0 +1,37 @@
+@use "./_variables";
+
+@mixin card-style(
+    $bg-color: variables.$color-book-card, 
+    $radius: variables.$radius-default
+    ) {
+    background: $bg-color;
+    border-radius: $radius;
+    padding: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgb(0,0,0,0.15);
+    }
+}
+
+@mixin grid-responsive($min: 200px) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($min, 1fr));
+  gap: 1rem;
+  margin: 1rem;
+}
+
+@mixin flex-row-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin absolute-top-right($top: 10px, $right: 10px) {
+    position: absolute;
+    top: $top;
+    right: $right;
+}
