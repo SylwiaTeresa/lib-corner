@@ -1,26 +1,34 @@
-import { NavLink } from "react-router-dom";
 import "./NavBar.scss";
+import { NavLink } from "react-router-dom";
+import { useReadBooks } from "../../context/ReadBooksContext";
+import { FaCheckCircle, FaHeart } from "react-icons/fa";
+import { IoHome } from "react-icons/io5";
 
-export default function NavBar() {
-    const theMenuBar = [
-        { to: "/", label: "| Home" },
-        { to: "/favorites", label: "|| Favorites" },
-        { to: "/read-books", label: "||| Read Books" }
-    ];
+export function NavBar() {
+  const { totalReadBooks, totalReadPages } = useReadBooks();
 
-    const getLinkClassName = ({ isActive } : { isActive: boolean }) => {
-        return isActive ? "nav-link active" : "nav-link";
-    };
+  return (
+    <nav className="navbar">
+      <div className="nav-stats">
+        <span>Total books read: <strong>{totalReadBooks}</strong> 📚</span>
+        <span>Total pages read: <strong>{totalReadPages}</strong> 📄</span>                 
+      </div>
 
-    return (
-        <header>
-            <nav className="nav">
-                {theMenuBar.map((item) => (
-                    <NavLink key={item.to} to={item.to} className={getLinkClassName}>
-                        {item.label}
-                    </NavLink>
-                ))}
-            </nav>
-        </header>
-    );
+      <div className="nav-home">
+        <NavLink to="/">
+          <IoHome />
+        </NavLink>
+      </div>
+
+      <div className="nav-icons">
+        <NavLink to="/favorites">
+          <FaHeart />
+        </NavLink>
+
+        <NavLink to="/read-books">
+          <FaCheckCircle />
+        </NavLink>
+      </div>
+    </nav>
+  );
 }

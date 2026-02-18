@@ -1,8 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.scss'
 import "./styles/_base.scss";
-import Footer from './components/Footer/Footer'
-import Header from './components/Header/Header'
 import RootLayout from './layouts/RootLayout'
 import HomePage from './routes/HomePage'
 import FavoritePage from './routes/FavoritePage'
@@ -27,9 +25,7 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <>
-      <Header />
       <RouterProvider router={router} />
-      <Footer />
     </>
   );
 }

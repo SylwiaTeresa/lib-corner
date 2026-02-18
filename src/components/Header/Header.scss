@@ -1,11 +1,18 @@
 .header {
-    margin-top: none;
-    margin-bottom: 20px;
-    font-style: italic;
-    font-size: xx-large;
-    background-color: antiquewhite;
-    background-repeat: no-repeat;
-    background-image: url("/books.jpg");
-    background-attachment: fixed;
-    background-size: cover;
+  margin-bottom: 1rem;
+  font-style: italic;
+  font-size: 2.7rem;
+  font-weight: bold;
+  text-align: center;
+  text-shadow:
+    1px 1px 2px red,
+    0 0 1em orange,
+    0 0 0.2em yellow
+  ;
+
+  background-color: antiquewhite;
+  background-repeat: no-repeat;
+  background-image: url("/books.jpg");
+  background-attachment: fixed;
+  background-size: cover;
 }
