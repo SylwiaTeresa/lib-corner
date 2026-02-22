@@ -1,46 +1,34 @@
 import "./BookDetailsModal.scss";
-import { useFavorites } from "../../context/FavoritesContext";
-import type { Book } from "../../types/Book";
+import { useEffect, useState } from "react";
 import { useReadBooks } from "../../context/ReadBooksContext";
-import { useState } from "react";
+import { ReadBook } from "../../types/ReadBook";
 
 type BookDetailsModalProps = {
-  book: Book;
+  book: ReadBook;
   onClose: () => void;
 };
 
-export const BookDetailsModal = ({ book, onClose }: BookDetailsModalProps) => {
-  const { favorites, dispatch } = useFavorites();
-  const { dispatch: readDispatch } = useReadBooks();
+export function BookDetailsModal({ book, onClose }: BookDetailsModalProps) {
+  const { updateRead } = useReadBooks();
 
-  const isFavorite = favorites.some(fav => fav.key === book.key);
+  const [rating, setRating] = useState<number | "">(book.rating || "");
+  const [pages, setPages] = useState<number | "">(book.pages || "");
+  const [review, setReview] = useState<string | "">(book.review ?? "");
 
-  const [rating, setRating] = useState(0);
-  const [review, setReview] = useState("");
-  const [pages, setPages] = useState<number | "">("");
+  useEffect(() => {
+    setRating(book.rating || "");
+    setPages(book.pages || "");
+    setReview(book.review ?? "");
+  }, [book]);
 
-  const toggleFavorite = () => {
-    if (isFavorite) {
-      dispatch({ type: "REMOVE_FAVORITE", key: book.key });
-    } else {
-      dispatch({ type: "ADD_FAVORITE", book });
-    }
-  };
+  const handleSave = () => {
+    const updates: Partial<ReadBook> = {};
 
-  const markAsRead = () => {
-    if (!pages) return;
+    if (rating !== "") updates.rating = rating;
+    if (pages !== "") updates.pages = pages;
+    if (review !== "") updates.review = review;
 
-    readDispatch({
-      type: "ADD_READ_BOOK",
-      book: {
-        ...book,
-        rating,
-        review,
-        pages: Number(pages),
-        finishedAt: new Date().toISOString(),
-      },
-    });
-
+    updateRead(book.key, updates);
     onClose();
   };
 
@@ -50,46 +38,28 @@ export const BookDetailsModal = ({ book, onClose }: BookDetailsModalProps) => {
         <button onClick={onClose}>✖</button>
 
         <h2>{book.title}</h2>
-        <p>{book.author_name?.join(", ")}</p>
-        <p>{book.first_publish_year ?? "Unknown year"}</p>
-
-        <button onClick={toggleFavorite}>
-          {isFavorite ? "Remove favorite" : "Add to favorites"}
-        </button>
-
-        <hr />
-
-        <h3>Mark as read</h3>
-
-        <label>
-          Rating (0–5):
-          <input
-            type="number"
-            min={0}
-            max={5}
-            value={rating}
-            onChange={(e) => setRating(Number(e.target.value))}
-          />
+          <label htmlFor="">
+          Rating
+          <input type="number" 
+            min={0} max={5} 
+            value={rating} 
+            onChange={(e) => setRating((e.target.value === "" ? "" : Number(e.target.value)))} />
         </label>
 
-        <label>
-          Pages:
-          <input
-            type="number"
-            value={pages}
-            onChange={(e) => setPages(e.target.value === "" ? "" : Number(e.target.value))}
-          />
+        <label htmlFor="">
+          Pages read
+          <input type="number" 
+            min={0} 
+            value={pages} 
+            onChange={(e) => setPages((e.target.value === "" ? "" : Number(e.target.value)))} />
         </label>
 
-        <label>
-          Review:
-          <textarea
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
-          />
+        <label htmlFor="">
+          Notes
+          <textarea value={review} onChange={(e) => setReview(e.target.value)}/>
         </label>
 
-        <button onClick={markAsRead}>📚 Mark as read</button>
+        <button className="primary" onClick={handleSave}>Save</button>        
       </div>
     </div>
   );
