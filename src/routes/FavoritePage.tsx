@@ -6,27 +6,30 @@ export default function FavoritesPage() {
   const { favorites } = useFavorites();
   const navigate = useNavigate();
 
-  if (!favorites.length) {
-    return <p>No favorite books yet</p>;
-  }
-
   return (
-    <>
+    <div className="favorite-books-page">
       <h1>My favorite books</h1>
 
-      <section className="book-grid">
-        {favorites.map(book => (
-          <BookCard 
-            key={book.key} 
-            book={book}
-            showActions={true} 
-            onClick={() => {
-              const bookID = book.key.replace(/^\/?works\//, "");
-              navigate(`/favorites/works/${bookID}`);
-            }}
-          />
-        ))}
-      </section>
-    </>
+      {favorites.length === 0 ? (
+        <p id="empty">
+          It is emptay right now. <br /> 
+          ♡⋅˚ 。Fill it with wonders 。˚⋅♡
+        </p>
+      ) : (
+        <section className="book-grid">
+          {favorites.map(book => (
+            <BookCard 
+              key={book.key} 
+              book={book}
+              showActions={true} 
+              onClick={() => {
+                const bookID = book.key.replace(/^\/?works\//, "");
+                navigate(`/favorites/works/${bookID}`);
+              }}
+            />
+          ))}
+        </section>
+      )}
+    </div>
   );
 }

@@ -43,6 +43,7 @@ export default function FavoriteDetailsPage() {
 
       <h3>My notes</h3>
       <textarea
+        name="textarea"
         value={notes}
         onChange={e => setNotes(e.target.value)}
         rows={5}

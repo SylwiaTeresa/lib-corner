@@ -30,13 +30,14 @@ export const SearchBar = () => {
       
       <form className="input-wrapper" onSubmit={handleSubmit}>
         <input
+          name="search"
           ref={inputRef}
           className="searchbar"
           type="text"
           placeholder="Search för books..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          aria-label="Search for books" // a11y: skärmläsare
+          aria-label="Search for books"
         />
         <button type="submit" className="search-icon">
           <FaSearch aria-hidden="true" />
